@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 
 class ListScreen extends StatelessWidget {
-  final List<String> nombres = ['Ana', 'Luis', 'Carla', 'Duban', 'Sofía'];
+  const ListScreen({super.key});
+
+  static const List<String> nombres = ['Camilo', 'Gonzalo', 'Dayana', 'Duban', 'Sofía'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Lista de Nombres', fontFamily: 'RobotoCustom')),
+      appBar: AppBar(
+        title: Text(
+          'Lista de Nombres',
+          style: TextStyle(fontFamily: 'RobotoCustom'),
+        ),
+      ),
       body: ListView.builder(
         itemCount: nombres.length,
         itemBuilder: (context, index) {

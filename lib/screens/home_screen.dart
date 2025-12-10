@@ -3,10 +3,17 @@ import 'form_screen.dart';
 import 'list_screen.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key}); 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('App GAES', fontFamily: 'RobotoCustom')),
+      appBar: AppBar(
+        title: Text(
+          'App GAES',
+          style: TextStyle(fontFamily: 'RobotoCustom'),
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -16,12 +23,15 @@ class HomeScreen extends StatelessWidget {
               height: 200,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/logo.png'),
+                  image: AssetImage('assets/images/logo_order.png'),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
-                  BoxShadow(blurRadius: 10, color: Colors.grey.withOpacity(0.5))
+                  BoxShadow(
+                    blurRadius: 10,
+                    color: Colors.grey.withOpacity(0.5),
+                  )
                 ],
               ),
             ),

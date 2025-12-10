@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class FormScreen extends StatefulWidget {
+  const FormScreen({super.key});
+
   @override
-  _FormScreenState createState() => _FormScreenState();
+  State<FormScreen> createState() => _FormScreenState();
 }
 
 class _FormScreenState extends State<FormScreen> {
@@ -12,7 +14,12 @@ class _FormScreenState extends State<FormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Formulario', fontFamily: 'RobotoCustom')),
+      appBar: AppBar(
+        title: Text(
+          'Formulario',
+          style: TextStyle(fontFamily: 'RobotoCustom'),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -43,7 +50,10 @@ class _FormScreenState extends State<FormScreen> {
                   color: Colors.blueAccent.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Text(_mensaje, style: TextStyle(fontSize: 18)),
+                child: Text(
+                  _mensaje,
+                  style: TextStyle(fontSize: 18, fontFamily: 'RobotoCustom'),
+                ),
               ),
             SizedBox(height: 20),
             ElevatedButton(
