@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'form_screen.dart';
 import 'list_screen.dart';
 import 'profile_screen.dart';
+import 'order_manager.dart'; // 👈 1. Agregado: para acceder a los pedidos
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget { // 👈 2. Cambiado a StatefulWidget
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de estado
 
   Widget _buildStatCard(
     String title,
@@ -128,18 +135,18 @@ class HomeScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // 🔹 Métricas
+            // 🔹 Métricas (¡AHORA DINÁMICAS!)
             Row(
               children: [
                 _buildStatCard(
                   'Pedidos',
-                  '12',
+                  OrderManager.pedidos.length.toString(), // 👈 Dinámico
                   Icons.shopping_cart,
                   Colors.indigo,
                 ),
                 _buildStatCard(
                   'Clientes',
-                  '8',
+                  OrderManager.pedidos.map((p) => p['cliente'] as String).toSet().length.toString(), // 👈 Únicos
                   Icons.people,
                   Colors.green,
                 ),
@@ -149,7 +156,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 _buildStatCard(
                   'Productos',
-                  '25',
+                  OrderManager.pedidos.map((p) => p['producto'] as String).toSet().length.toString(), // ✅ Dinámico
                   Icons.inventory,
                   Colors.orange,
                 ),
@@ -181,7 +188,7 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const FormScreen()),
-                    );
+                    ).then((_) => setState(() {})); // 👈 Actualiza al volver
                   },
                 ),
                 _quickAction(
@@ -192,7 +199,7 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const ListScreen()),
-                    );
+                    ).then((_) => setState(() {})); // 👈 Opcional: también actualiza
                   },
                 ),
                 _quickAction(
