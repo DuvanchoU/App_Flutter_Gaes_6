@@ -40,6 +40,10 @@ flutter:
   # Assets
   assets:
     - assets/images/logo_order.png
+    - assets/images/cama.png
+    - assets/images/sofa.png
+    - assets/images/comedor.png
+
 
   # Fonts
   fonts:

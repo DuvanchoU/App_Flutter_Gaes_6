@@ -8,57 +8,52 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-  final TextEditingController _controller = TextEditingController();
-  String _mensaje = '';
+  final TextEditingController clienteCtrl = TextEditingController();
+  final TextEditingController productoCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Formulario',
-          style: TextStyle(fontFamily: 'RobotoCustom'),
-        ),
+        title: const Text('Registrar Pedido'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                labelText: 'Ingresa tu nombre',
+              controller: clienteCtrl,
+              decoration: const InputDecoration(
+                labelText: 'Cliente',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 16),
+            TextField(
+              controller: productoCtrl,
+              decoration: const InputDecoration(
+                labelText: 'Producto',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                if (_controller.text.isNotEmpty) {
-                  setState(() {
-                    _mensaje = '¡Hola, ${_controller.text}!';
-                  });
+                if (clienteCtrl.text.isNotEmpty &&
+                    productoCtrl.text.isNotEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Pedido registrado correctamente'),
+                    ),
+                  );
                 }
               },
-              child: Text('Saludar'),
+              child: const Text('Guardar Pedido'),
             ),
-            SizedBox(height: 20),
-            if (_mensaje.isNotEmpty)
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.blueAccent.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  _mensaje,
-                  style: TextStyle(fontSize: 18, fontFamily: 'RobotoCustom'),
-                ),
-              ),
-            SizedBox(height: 20),
+            const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Volver'),
+              child: const Text('Volver'),
             ),
           ],
         ),

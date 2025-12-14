@@ -3,35 +3,29 @@ import 'package:flutter/material.dart';
 class ListScreen extends StatelessWidget {
   const ListScreen({super.key});
 
-  static const List<String> nombres = ['Camilo', 'Gonzalo', 'Dayana', 'Duban', 'Sofía'];
+  static final List<Map<String, String>> pedidos = [
+    {'cliente': 'Camilo', 'producto': 'Sofá'},
+    {'cliente': 'Dayana', 'producto': 'Comedor'},
+    {'cliente': 'Gonzalo', 'producto': 'Cama'},
+    {'cliente': 'Duban', 'producto': 'Colchón'},
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Lista de Nombres',
-          style: TextStyle(fontFamily: 'RobotoCustom'),
-        ),
+        title: const Text('Pedidos'),
       ),
       body: ListView.builder(
-        itemCount: nombres.length,
+        itemCount: pedidos.length,
         itemBuilder: (context, index) {
           return Card(
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      nombres[index],
-                      style: TextStyle(fontSize: 18, fontFamily: 'RobotoCustom'),
-                    ),
-                  ),
-                  Icon(Icons.arrow_forward_ios, size: 16),
-                ],
-              ),
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: ListTile(
+              leading: const Icon(Icons.receipt_long),
+              title: Text(pedidos[index]['cliente']!),
+              subtitle: Text(pedidos[index]['producto']!),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             ),
           );
         },

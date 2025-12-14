@@ -1,58 +1,236 @@
 import 'package:flutter/material.dart';
 import 'form_screen.dart';
 import 'list_screen.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key}); 
+  const HomeScreen({super.key});
+
+  Widget _buildStatCard(
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.12),
+          borderRadius: BorderRadius.circular(18),
+          boxShadow: [
+            BoxShadow(
+              color: color.withOpacity(0.2),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            CircleAvatar(
+              radius: 22,
+              backgroundColor: color.withOpacity(0.2),
+              child: Icon(icon, color: color),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              title,
+              style: TextStyle(color: Colors.grey[700]),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _quickAction(
+    BuildContext context,
+    IconData icon,
+    String label,
+    VoidCallback onTap,
+  ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 26,
+            backgroundColor: Colors.indigo.withOpacity(0.15),
+            child: Icon(icon, color: Colors.indigo),
+          ),
+          const SizedBox(height: 6),
+          Text(label, style: const TextStyle(fontSize: 12)),
+        ],
+      ),
+    );
+  }
+
+  Widget _activityItem(String title, String subtitle, IconData icon) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Colors.indigo.withOpacity(0.1),
+        child: Icon(icon, color: Colors.indigo),
+      ),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: const Icon(Icons.chevron_right),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'App GAES',
-          style: TextStyle(fontFamily: 'RobotoCustom'),
-        ),
+        title: const Text('Order RAE - Dashboard'),
       ),
-      body: Center(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(12),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // 🔹 Header
             Container(
-              width: 200,
-              height: 200,
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/logo_order.png'),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 10,
-                    color: Colors.grey.withOpacity(0.5),
+                color: Colors.indigo.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                children: const [
+                  Icon(Icons.store, size: 32, color: Colors.indigo),
+                  SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Bienvenido a Order RAE',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text('Panel de control del sistema'),
+                    ],
                   )
                 ],
               ),
             ),
-            SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => FormScreen()),
-                );
-              },
-              child: Text('Ir a Formulario'),
+
+            const SizedBox(height: 20),
+
+            // 🔹 Métricas
+            Row(
+              children: [
+                _buildStatCard(
+                  'Pedidos',
+                  '12',
+                  Icons.shopping_cart,
+                  Colors.indigo,
+                ),
+                _buildStatCard(
+                  'Clientes',
+                  '8',
+                  Icons.people,
+                  Colors.green,
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
+            Row(
+              children: [
+                _buildStatCard(
+                  'Productos',
+                  '25',
+                  Icons.inventory,
+                  Colors.orange,
+                ),
+                _buildStatCard(
+                  'Ventas',
+                  '\$3.200.000',
+                  Icons.attach_money,
+                  Colors.purple,
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 24),
+
+            // 🔹 Acciones rápidas
+            const Text(
+              'Acciones rápidas',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _quickAction(
                   context,
-                  MaterialPageRoute(builder: (_) => ListScreen()),
-                );
-              },
-              child: Text('Ver Lista'),
+                  Icons.add_shopping_cart,
+                  'Nuevo Pedido',
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const FormScreen()),
+                    );
+                  },
+                ),
+                _quickAction(
+                  context,
+                  Icons.list_alt,
+                  'Pedidos',
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ListScreen()),
+                    );
+                  },
+                ),
+                _quickAction(
+                  context,
+                  Icons.person,
+                  'Perfil',
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                    );
+                  },
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 30),
+
+            // 🔹 Actividad reciente
+            const Text(
+              'Actividad reciente',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            _activityItem(
+              'Pedido registrado',
+              'Cliente: Camilo – Sofá moderno',
+              Icons.receipt_long,
+            ),
+            _activityItem(
+              'Nuevo cliente',
+              'Dayana fue agregada al sistema',
+              Icons.person_add,
+            ),
+            _activityItem(
+              'Producto actualizado',
+              'Comedor 6 puestos',
+              Icons.inventory_2,
             ),
           ],
         ),
