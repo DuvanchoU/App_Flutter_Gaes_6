@@ -18,235 +18,37 @@ class _FormScreenState extends State<FormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
-
       appBar: AppBar(
-        elevation: 0,
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
-        title: const Text(
-          'Registrar Pedido',
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-      ),
-
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            width: double.infinity,
-            constraints: const BoxConstraints(maxWidth: 420),
-            margin: const EdgeInsets.all(16),
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
-                  blurRadius: 16,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Título del formulario
-                const Text(
-                  'Nuevo Pedido',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  'Complete la información del pedido',
-                  style: TextStyle(color: Colors.grey[600]),
-                ),
-
-                const SizedBox(height: 24),
-
-                // Campo Cliente
-                TextField(
-                  controller: clienteCtrl,
-                  decoration: InputDecoration(
-                    labelText: 'Cliente',
-                    prefixIcon: const Icon(Icons.person_outline),
-                    filled: true,
-                    fillColor: const Color(0xFFF1F1F1),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
-                // Campo Producto
-                TextField(
-                  controller: productoCtrl,
-                  decoration: InputDecoration(
-                    labelText: 'Producto',
-                    prefixIcon: const Icon(Icons.inventory_2_outlined),
-                    filled: true,
-                    fillColor: const Color(0xFFF1F1F1),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 28),
-
-                // Botón Guardar
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (clienteCtrl.text.isNotEmpty &&
-                          productoCtrl.text.isNotEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content:
-                                const Text('Pedido registrado correctamente'),
-                            backgroundColor: primaryColor,
-                          ),
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryColor,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      textStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    child: const Text('Guardar Pedido'),
-                  ),
-                ),
-
-                const SizedBox(height: 14),
-
-                // Botón Volver
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: primaryColor,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      side: const BorderSide(color: primaryColor),
-                    ),
-                    child: const Text('Volver'),
-                  ),
-                ),
-              ],
-            ),
-          ),
-      backgroundColor: const Color(0xFFF8F5F0), // Fondo beige suave
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF6D4C41), // Café oscuro
-        title: const Text(
-          'Registrar Pedido',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-            color: Colors.white,
-          ),
-        ),
-        elevation: 0,
+        title: const Text('Registrar Pedido'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             TextField(
               controller: clienteCtrl,
-              decoration: InputDecoration(
-                labelText: 'Cliente',
-                labelStyle: const TextStyle(color: Color(0xFF5D4037)), // Café medio
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xFFBDBDBD)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xFF6D4C41), width: 2),
-                ),
-              ),
-              style: const TextStyle(color: Color(0xFF3E2723)), // Café profundo
+              decoration: const InputDecoration(labelText: 'Cliente'),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
             TextField(
               controller: productoCtrl,
-              decoration: InputDecoration(
-                labelText: 'Producto',
-                labelStyle: const TextStyle(color: Color(0xFF5D4037)),
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xFFBDBDBD)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xFF6D4C41), width: 2),
-                ),
-              ),
-              style: const TextStyle(color: Color(0xFF3E2723)),
+              decoration: const InputDecoration(labelText: 'Producto'),
             ),
             const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (clienteCtrl.text.isNotEmpty && productoCtrl.text.isNotEmpty) {
-                    OrderManager.addPedido(clienteCtrl.text, productoCtrl.text);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Pedido registrado correctamente'),
-                      ),
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF6D4C41), // Café oscuro
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text('Guardar Pedido', style: TextStyle(fontSize: 18)),
-              ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: () => Navigator.pop(context),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: const Color(0xFF6D4C41),
-                  side: const BorderSide(color: Color(0xFF6D4C41)),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text('Volver', style: TextStyle(fontSize: 18)),
-              ),
+            ElevatedButton(
+              onPressed: () {
+                if (clienteCtrl.text.isNotEmpty &&
+                    productoCtrl.text.isNotEmpty) {
+                  OrderManager.addPedido(
+                    clienteCtrl.text,
+                    productoCtrl.text,
+                  );
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text('Guardar'),
             ),
           ],
         ),

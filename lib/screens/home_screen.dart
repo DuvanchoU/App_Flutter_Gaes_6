@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'form_screen.dart';
 import 'list_screen.dart';
 import 'profile_screen.dart';
-import 'order_manager.dart'; // 👈 1. Agregado: para acceder a los pedidos
+import 'order_manager.dart';
 
-class HomeScreen extends StatefulWidget { // 👈 2. Cambiado a StatefulWidget
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
   static const Color primaryColor = Color(0xFF633D29);
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de estado
+class _HomeScreenState extends State<HomeScreen> {
   Widget _buildStatCard(
     String title,
     String value,
@@ -36,8 +38,8 @@ class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de est
           children: [
             CircleAvatar(
               radius: 22,
-              backgroundColor: primaryColor.withOpacity(0.12),
-              child: Icon(icon, color: primaryColor),
+              backgroundColor: HomeScreen.primaryColor.withOpacity(0.12),
+              child: Icon(icon, color: HomeScreen.primaryColor),
             ),
             const SizedBox(height: 14),
             Text(
@@ -62,7 +64,6 @@ class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de est
   }
 
   Widget _quickAction(
-    BuildContext context,
     IconData icon,
     String label,
     VoidCallback onTap,
@@ -73,8 +74,8 @@ class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de est
         children: [
           CircleAvatar(
             radius: 28,
-            backgroundColor: primaryColor.withOpacity(0.12),
-            child: Icon(icon, color: primaryColor),
+            backgroundColor: HomeScreen.primaryColor.withOpacity(0.12),
+            child: Icon(icon, color: HomeScreen.primaryColor),
           ),
           const SizedBox(height: 8),
           Text(
@@ -105,8 +106,8 @@ class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de est
       ),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: primaryColor.withOpacity(0.12),
-          child: Icon(icon, color: primaryColor),
+          backgroundColor: HomeScreen.primaryColor.withOpacity(0.12),
+          child: Icon(icon, color: HomeScreen.primaryColor),
         ),
         title: Text(title),
         subtitle: Text(subtitle),
@@ -117,19 +118,19 @@ class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de est
 
   @override
   Widget build(BuildContext context) {
+    final pedidos = OrderManager.pedidos;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
-
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: primaryColor,
+        backgroundColor: HomeScreen.primaryColor,
         foregroundColor: Colors.white,
         title: const Text(
-          'ORDER RAE - DASHBOARD',
+          'ORDER RAE - PANEL DE CONTROL',
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -139,12 +140,12 @@ class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de est
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: primaryColor.withOpacity(0.12),
+                color: HomeScreen.primaryColor.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(18),
               ),
-              child: Row(
-                children: const [
-                  Icon(Icons.store, size: 34, color: primaryColor),
+              child: const Row(
+                children: [
+                  Icon(Icons.store, size: 34, color: HomeScreen.primaryColor),
                   SizedBox(width: 14),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,22 +167,21 @@ class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de est
                 ],
               ),
             ),
+
             const SizedBox(height: 20),
 
-            // 🔹 Métricas (¡AHORA DINÁMICAS!)
+            // Métricas dinámicas
             Row(
               children: [
                 _buildStatCard(
                   'Pedidos',
-                  OrderManager.pedidos.length.toString(), // 👈 Dinámico
+                  pedidos.length.toString(),
                   Icons.shopping_cart,
-                  Colors.indigo,
                 ),
                 _buildStatCard(
                   'Clientes',
-                  OrderManager.pedidos.map((p) => p['cliente'] as String).toSet().length.toString(), // 👈 Únicos
+                  pedidos.map((p) => p['cliente']).toSet().length.toString(),
                   Icons.people,
-                  Colors.green,
                 ),
               ],
             ),
@@ -189,37 +189,20 @@ class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de est
               children: [
                 _buildStatCard(
                   'Productos',
-                  OrderManager.pedidos.map((p) => p['producto'] as String).toSet().length.toString(), // ✅ Dinámico
+                  pedidos.map((p) => p['producto']).toSet().length.toString(),
                   Icons.inventory,
-                  Colors.orange,
                 ),
                 _buildStatCard(
                   'Ventas',
                   '\$3.200.000',
                   Icons.attach_money,
-                  Colors.purple,
                 ),
-              ],
-            ),
-            const SizedBox(height: 24),
-
-            // Métricas
-            Row(
-              children: [
-                _buildStatCard('Pedidos', '12', Icons.shopping_cart),
-                _buildStatCard('Clientes', '8', Icons.people),
-              ],
-            ),
-            Row(
-              children: [
-                _buildStatCard('Productos', '25', Icons.inventory),
-                _buildStatCard('Ventas', '\$3.200.000', Icons.attach_money),
               ],
             ),
 
             const SizedBox(height: 28),
 
-            // 🔹 Acciones rápidas
+            // Acciones rápidas
             const Text(
               'Acciones rápidas',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -229,29 +212,28 @@ class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de est
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _quickAction(
-                  context,
                   Icons.add_shopping_cart,
                   'Nuevo Pedido',
-                  () {
-                    Navigator.push(
+                  () async {
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const FormScreen()),
-                    ).then((_) => setState(() {})); // 👈 Actualiza al volver
+                    );
+                    setState(() {});
                   },
                 ),
                 _quickAction(
-                  context,
                   Icons.list_alt,
                   'Pedidos',
-                  () {
-                    Navigator.push(
+                  () async {
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const ListScreen()),
-                    ).then((_) => setState(() {})); // 👈 Opcional: también actualiza
+                    );
+                    setState(() {});
                   },
                 ),
                 _quickAction(
-                  context,
                   Icons.person,
                   'Perfil',
                   () {
@@ -272,20 +254,13 @@ class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de est
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            _activityItem(
-              'Pedido registrado',
-              'Cliente: Camilo – Sofá moderno',
-              Icons.receipt_long,
-            ),
-            _activityItem(
-              'Nuevo cliente',
-              'Dayana fue agregada al sistema',
-              Icons.person_add,
-            ),
-            _activityItem(
-              'Producto actualizado',
-              'Comedor 6 puestos',
-              Icons.inventory_2,
+
+            ...pedidos.take(3).map(
+              (p) => _activityItem(
+                'Pedido registrado',
+                'Cliente: ${p['cliente']} – ${p['producto']}',
+                Icons.receipt_long,
+              ),
             ),
           ],
         ),
