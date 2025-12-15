@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'form_screen.dart';
 import 'list_screen.dart';
 import 'profile_screen.dart';
+import 'order_manager.dart'; // 👈 1. Agregado: para acceder a los pedidos
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget { // 👈 2. Cambiado a StatefulWidget
   const HomeScreen({super.key});
-
   static const Color primaryColor = Color(0xFF633D29);
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> { // 👈 3. Nueva clase de estado
   Widget _buildStatCard(
     String title,
     String value,
@@ -162,7 +166,41 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 20),
 
+            // 🔹 Métricas (¡AHORA DINÁMICAS!)
+            Row(
+              children: [
+                _buildStatCard(
+                  'Pedidos',
+                  OrderManager.pedidos.length.toString(), // 👈 Dinámico
+                  Icons.shopping_cart,
+                  Colors.indigo,
+                ),
+                _buildStatCard(
+                  'Clientes',
+                  OrderManager.pedidos.map((p) => p['cliente'] as String).toSet().length.toString(), // 👈 Únicos
+                  Icons.people,
+                  Colors.green,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                _buildStatCard(
+                  'Productos',
+                  OrderManager.pedidos.map((p) => p['producto'] as String).toSet().length.toString(), // ✅ Dinámico
+                  Icons.inventory,
+                  Colors.orange,
+                ),
+                _buildStatCard(
+                  'Ventas',
+                  '\$3.200.000',
+                  Icons.attach_money,
+                  Colors.purple,
+                ),
+              ],
+            ),
             const SizedBox(height: 24),
 
             // Métricas
@@ -198,7 +236,7 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const FormScreen()),
-                    );
+                    ).then((_) => setState(() {})); // 👈 Actualiza al volver
                   },
                 ),
                 _quickAction(
@@ -209,7 +247,7 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const ListScreen()),
-                    );
+                    ).then((_) => setState(() {})); // 👈 Opcional: también actualiza
                   },
                 ),
                 _quickAction(
