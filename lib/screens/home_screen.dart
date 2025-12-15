@@ -6,24 +6,25 @@ import 'profile_screen.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  static const Color primaryColor = Color(0xFF633D29);
+
   Widget _buildStatCard(
     String title,
     String value,
     IconData icon,
-    Color color,
   ) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(18),
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.12),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: color.withOpacity(0.2),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 16,
+              offset: const Offset(0, 8),
             ),
           ],
         ),
@@ -31,10 +32,10 @@ class HomeScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 22,
-              backgroundColor: color.withOpacity(0.2),
-              child: Icon(icon, color: color),
+              backgroundColor: primaryColor.withOpacity(0.12),
+              child: Icon(icon, color: primaryColor),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             Text(
               value,
               style: const TextStyle(
@@ -42,10 +43,13 @@ class HomeScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 6),
             Text(
               title,
-              style: TextStyle(color: Colors.grey[700]),
+              style: TextStyle(
+                color: Colors.grey[700],
+                fontSize: 13,
+              ),
             ),
           ],
         ),
@@ -64,112 +68,125 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         children: [
           CircleAvatar(
-            radius: 26,
-            backgroundColor: Colors.indigo.withOpacity(0.15),
-            child: Icon(icon, color: Colors.indigo),
+            radius: 28,
+            backgroundColor: primaryColor.withOpacity(0.12),
+            child: Icon(icon, color: primaryColor),
           ),
-          const SizedBox(height: 6),
-          Text(label, style: const TextStyle(fontSize: 12)),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
     );
   }
 
   Widget _activityItem(String title, String subtitle, IconData icon) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: Colors.indigo.withOpacity(0.1),
-        child: Icon(icon, color: Colors.indigo),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: const Icon(Icons.chevron_right),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: primaryColor.withOpacity(0.12),
+          child: Icon(icon, color: primaryColor),
+        ),
+        title: Text(title),
+        subtitle: Text(subtitle),
+        trailing: const Icon(Icons.chevron_right),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F5F5),
+
       appBar: AppBar(
-        title: const Text('Order RAE - Dashboard'),
+        elevation: 0,
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+        title: const Text(
+          'ORDER RAE - DASHBOARD',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
       ),
+
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🔹 Header
+            // Header
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.indigo.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(16),
+                color: primaryColor.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(18),
               ),
               child: Row(
                 children: const [
-                  Icon(Icons.store, size: 32, color: Colors.indigo),
-                  SizedBox(width: 12),
+                  Icon(Icons.store, size: 34, color: primaryColor),
+                  SizedBox(width: 14),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Bienvenido a Order RAE',
+                        'BIENVENIDO A ORDER RAE',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text('Panel de control del sistema'),
+                      SizedBox(height: 4),
+                      Text(
+                        'Panel de control del sistema',
+                        style: TextStyle(color: Colors.black54),
+                      ),
                     ],
                   )
                 ],
               ),
             ),
 
-            const SizedBox(height: 20),
-
-            // 🔹 Métricas
-            Row(
-              children: [
-                _buildStatCard(
-                  'Pedidos',
-                  '12',
-                  Icons.shopping_cart,
-                  Colors.indigo,
-                ),
-                _buildStatCard(
-                  'Clientes',
-                  '8',
-                  Icons.people,
-                  Colors.green,
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                _buildStatCard(
-                  'Productos',
-                  '25',
-                  Icons.inventory,
-                  Colors.orange,
-                ),
-                _buildStatCard(
-                  'Ventas',
-                  '\$3.200.000',
-                  Icons.attach_money,
-                  Colors.purple,
-                ),
-              ],
-            ),
-
             const SizedBox(height: 24),
+
+            // Métricas
+            Row(
+              children: [
+                _buildStatCard('Pedidos', '12', Icons.shopping_cart),
+                _buildStatCard('Clientes', '8', Icons.people),
+              ],
+            ),
+            Row(
+              children: [
+                _buildStatCard('Productos', '25', Icons.inventory),
+                _buildStatCard('Ventas', '\$3.200.000', Icons.attach_money),
+              ],
+            ),
+
+            const SizedBox(height: 28),
 
             // 🔹 Acciones rápidas
             const Text(
               'Acciones rápidas',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -209,14 +226,14 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: 32),
 
-            // 🔹 Actividad reciente
+            // Actividad reciente
             const Text(
               'Actividad reciente',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 12),
             _activityItem(
               'Pedido registrado',
               'Cliente: Camilo – Sofá moderno',
